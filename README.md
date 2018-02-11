@@ -1,4 +1,4 @@
-# Python-Movie-Recommendation-
+# Python-Movie-Recommendation
 Flask based Movie Recommendation System 
 
 Final Year Project
