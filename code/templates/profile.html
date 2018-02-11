@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    font-family: "Lato", sans-serif;
+}
+#open_cursor{
+    display: none;
+}
+
+ul li a{
+    text-decoration: none;
+    margin-bottom: 1em;
+}
+ul{
+    list-style: none;
+}
+
+li{
+        margin-bottom: 0.5em;
+        font-size: 1em;
+        font-weight: 600;
+}
+
+
+a {color: #646464;}      /* unvisited link */
+a:visited {color:#646464;}  /* visited link */
+a:hover {color: #b61c00;}  /* mouse over link */
+a:active {color:#646464;}
+
+
+.sidenav {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+.sidenav a:hover, .offcanvas a:focus{
+    color: #b61c00;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#main {
+    margin-left: 250px;
+    padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+
+ <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'font-awesome/css/font-awesome.min.css')}}">
+
+    <link href="static/css/search/select2.min.css" rel="stylesheet">
+    <link href="static/css/search/select2-bootstrap.min.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/profile"><img src="http://x.rappler.com/images/default-profile-pic.png" width="85" height="85"/></a>
+    <a href="/profile"><i class="fa fa-user" aria-hidden="true"> Profile</i></a>
+    <a href="/protected"><i class="fa fa-home" aria-hidden="true"> Home</i></a>
+    <a href="/search"><i class="fa fa-search" aria-hidden="true"> Search</i></a>
+    <a href="/genre"><i class="fa fa-film" aria-hidden="true"> Genre</i></a>
+    <a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"> Logout</i></a>
+
+
+</div>
+
+
+
+
+  <span id="open_cursor" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
+
+
+<div id="main">
+    <form method="POST" action="{{ url_for('srch') }}" style="display: flex;">
+    {%for a in range(0, 1)%}
+
+    <select name="search" style="flex: 1">
+        <option value="" disabled selected>Search Movie</option>
+        {% for item in search[a] %}
+        <option value="{{item[1]}}">{{item[0]}}</option>
+        {%endfor%}
+    </select>
+    {%endfor%}
+    <button type = "submit" value="login">Search</button>
+
+</form>
+  <h2>Watched List</h2>
+
+
+    {%for a in range(0, 1)%}
+    <ul>
+    {% for item in watched [a]%}
+        <li> <a href="/movie/{{item[1]}}">{{item[0]}} </a></li>
+        {% endfor %}
+        {% endfor %}
+    </ul>
+
+</div>
+
+<script>
+function closeNav() {
+    document.getElementById("open_cursor").style.display = "inline";
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+
+}
+function openNav() {
+    document.getElementById("open_cursor").style.display = "none";
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+}
+
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="static/js/search/select2.min.js"></script>
+<script>
+    $('select').select2();
+</script>
+</body>
+</html>
+

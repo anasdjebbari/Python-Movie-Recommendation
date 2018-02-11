@@ -1,0 +1,76 @@
+<!dOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'style.css')}}">
+<head>
+    <meta charset="UTF-8">
+    <title>REGISTER</title>
+</head>
+
+<body class="loginbody">
+<div class="reg-page">
+<div class="regspecs">
+  <div class="form">
+    <h1>Register</h1>
+    <form method="POST">
+        <input type="text" name="username" placeholder="username">
+
+        <select name="age" class="selectpicker">
+            <option value="0">Age</option>
+            <option value="1">Under 18</option>
+            <option value="18">18-24</option>
+            <option value="25">25-34</option>
+            <option value="35">35-44</option>
+            <option value="45">45-49</option>
+            <option value="50">50-55</option>
+            <option value="56">56+</option>
+        </select>
+
+        <div class="container">
+            <ul>
+                <li>
+                    <input type="radio" id="f-option" name="gender" value="M">
+                    <label for="f-option">Male</label>
+                    <div class="check"></div>
+                </li>
+                <li>
+                    <input type="radio" id="s-option" name="gender" value="F">
+                    <label for="s-option">Female</label>
+                    <div class="check"><div class="inside"></div></div>
+                </li>
+
+            </ul>
+        </div>
+
+        <select name="occupation" class="selectpicker">
+            <option value="0">Occupation</option>
+            <option value="1">other or not specified</option>
+            <option value="2">academic/educator</option>
+            <option value="3">artist</option>
+            <option value="4">college/grad student</option>
+            <option value="5">customer service</option>
+            <option value="6">doctor/health care</option>
+            <option value="7">executive/managerial</option>
+            <option value="8">farmer</option>
+            <option value="9">homemaker</option>
+            <option value="10">K-12 student</option>
+            <option value="11">lawyer</option>
+            <option value="12">programmer</option>
+            <option value="13">retired</option>
+            <option value="14">sales/marketing</option>
+            <option value="15">scientist</option>
+            <option value="16">self-employed</option>
+            <option value="17">technician/engineer</option>
+            <option value="18">tradesman/craftsman</option>
+            <option value="19">unemployed</option>
+            <option value="20">writer</option>
+        </select>
+        <input type="password" name="password" placeholder="password">
+        <button type = "submit" value="login">JOIN</button>
+        <p class="message">Already registered? <a href="/">Sign In</a></p>
+
+    </form>
+    </div>
+    </div>
+</div>
+</body>
+</html>

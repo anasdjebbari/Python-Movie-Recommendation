@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Movie Profile</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'font-awesome/css/font-awesome.min.css')}}">
+    <link href="static/css/search/select2.min.css" rel="stylesheet">
+    <link href="static/css/search/select2-bootstrap.min.min.css" rel="stylesheet">
+
+
+    <style>
+
+
+body {
+    font-family: "Lato", sans-serif;
+}
+
+ul li a{
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+}
+
+.movierec li{
+        margin-bottom: 0.5em;
+        font-size: 1em;
+        font-weight: 600;
+}
+
+
+a {color: #646464;}      /* unvisited link */
+a:visited {color:#646464;}  /* visited link */
+a:hover {color: #b61c00;}  /* mouse over link */
+a:active {color:#646464;}
+
+
+.sidenav {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+.sidenav a:hover, .offcanvas a:focus{
+    color: #b61c00;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#main {
+    margin-left: 250px;
+    padding: 16px;
+}
+
+#open_cursor{
+    display: none;
+}
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+    <script src="static/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.0.js"></script>
+    <script type='text/javascript'>
+     var str = "";
+
+    if ("{{movie}}".length < 6){
+        str = "0";
+        str = str + "{{movie}}"
+    }
+
+    else {
+        str = "{{movie}}"
+    }
+
+     $(document).ready(function(){
+        console.log("nice one");
+         var $Container = $('.container');
+         $Container.hide();
+             var sUrl, oData;
+             sUrl = 'https://www.omdbapi.com/?i=tt0' + encodeURI(str) + encodeURI('&plot=full&r=json')
+             $.ajax(sUrl, {
+                 complete: function (response) {
+                     oData = $.parseJSON(response.responseText);
+                     console.log(oData.Response);
+                     $Container.find('.title').text(oData.Title);
+                     $Container.find('.plot').text(oData.Plot);
+                     $Container.find('.genre').text(oData.Genre);
+                     $Container.find('.runtime').text(oData.Runtime);
+                     $Container.find('.poster').html('<img src="' + oData.Poster + '"/>');
+                     $Container.show();
+                     }
+
+             });
+             console.log("test2");
+
+     });
+
+</script>
+
+</head>
+
+<body>
+
+<div class="content">
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/profile"><img src="http://x.rappler.com/images/default-profile-pic.png" width="85" height="85"/></a>
+    <a href="/profile"><i class="fa fa-user" aria-hidden="true"> Profile</i></a>
+    <a href="/protected"><i class="fa fa-home" aria-hidden="true"> Home</i></a>
+    <a href="/search"><i class="fa fa-search" aria-hidden="true"> Search</i></a>
+    <a href="/genre"><i class="fa fa-film" aria-hidden="true"> Genre</i></a>
+    <a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"> Logout</i></a>
+
+
+</div>
+
+
+<div id="main">
+
+
+     <span id="open_cursor" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
+
+    </br>
+
+   {%for a in range(0, 1)%}
+        {% for item in minfo %}
+    <h2>{{item[4]}}</h2>
+    </br>
+    <img src="{{item[3]}}" class="mpic">
+   <div class="movinfo">
+    <p>{{item[0]}}</p>
+    <p>{{item[1]}}</p>
+    <p>{{item[2]}}</p>
+
+       <div class="hiderate">
+        <p>{{m}}<b>{{sqlrating[0]}}</b></p>
+        <p>{{t}}<b>{{sqlrating[1]}}</b></p>
+    </div><!--The json file extraction-->
+         <h1 style=" color:white; padding:0.4em;background-color: #df0d0a">{{avg}}</h1>
+
+        <div class="rate" style="float: left; margin-top:2.3em;">
+                <a class = "star" href="/rate/1/{{movie}}" id="rate1">
+                    <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+                </a>
+                <a class = "star" href="/rate/2/{{movie}}" id="rate2">
+                    <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+                </a>
+                <a class = "star" href="/rate/3/{{movie}}" id="rate3">
+                    <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+                </a>
+                <a class = "star" href="/rate/4/{{movie}}" id="rate4">
+                    <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+                </a>
+                <a class = "star" href="/rate/5/{{movie}}" id="rate5">
+                    <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+                </a>
+            </div>
+
+       </div>
+        {% endfor %}
+    {% endfor %}
+
+
+
+        <div style="width: 300px; margin-bottom: 3em;">
+            <style type="text/css">
+                .movinfo{
+                    width: 60em;
+                    height: 300px;
+                }
+                .mpic{
+                    float: left;
+                    margin-right: 2em;
+                }
+                .mpic img{
+                    height: 300px;
+                }
+
+
+                h1 {
+                    float: left;
+                    margin-right: 0.5em;
+                    width: 2em;
+                    text-align: center;
+                    border-radius: 5px;
+                    font-family: "Roboto", sans-serif
+                }
+
+            </style>
+
+
+
+        </div>
+    <style>
+        .rated .fa-star{
+            color:#ca0d0a;
+        }
+        a{
+            text-decoration: none;
+        }
+        .fa-star{
+            color: rgba(151, 29, 0, 0.49);
+        }
+
+        .starHover .fa-star{
+            color: #ca0d0a;
+        }
+
+</style>
+
+    <script>
+    var stringR= "{{sqlrating[0]}}"
+    stringR= parseInt(stringR)
+
+    if(stringR == "1"){
+        $('#rate1').addClass('rated')
+    }
+    else if(stringR == "2"){
+        $('#rate1').addClass('rated')
+        $('#rate2').addClass('rated')
+    }
+    else if(stringR == "3"){
+        $('#rate1').addClass('rated')
+        $('#rate2').addClass('rated')
+        $('#rate3').addClass('rated')
+    }
+    else if(stringR == "4"){
+        $('#rate1').addClass('rated')
+        $('#rate2').addClass('rated')
+        $('#rate3').addClass('rated')
+        $('#rate4').addClass('rated')
+    }
+    else if(stringR == "5"){
+        $('#rate1').addClass('rated')
+        $('#rate2').addClass('rated')
+        $('#rate3').addClass('rated')
+        $('#rate4').addClass('rated')
+        $('#rate5').addClass('rated')
+    }
+
+    $(document).ready(function(){
+
+        $(".star").hover(function(){
+            var starHovered = $(this).attr("id");
+
+            if(starHovered == "rate1"){
+               $('#rate1').addClass('starHover')
+            }
+            else if(starHovered == "rate2"){
+               $('#rate1').addClass('starHover')
+               $('#rate2').addClass('starHover')
+            }
+            else if(starHovered == "rate3"){
+               $('#rate1').addClass('starHover')
+               $('#rate2').addClass('starHover')
+               $('#rate3').addClass('starHover')
+            }
+            else if(starHovered == "rate4"){
+               $('#rate1').addClass('starHover')
+               $('#rate2').addClass('starHover')
+               $('#rate3').addClass('starHover')
+               $('#rate4').addClass('starHover')
+            }
+            else if(starHovered == "rate5"){
+               $('#rate1').addClass('starHover')
+               $('#rate2').addClass('starHover')
+               $('#rate3').addClass('starHover')
+               $('#rate4').addClass('starHover')
+               $('#rate5').addClass('starHover')
+            }
+    }) .mouseout(function(){
+          $('.star').removeClass('starHover')
+        })
+    })
+
+</script>
+
+</br>
+</br>
+</br>
+</br>
+
+
+        <style> .bottom{margin-top: 3em; }</style>
+         <div class="bottom">
+        {% for item in minfo %}
+    <h2>{{recmsg}}<b>{{item[4]}}</b>:</h2>
+        {% endfor %}
+
+        <style>
+        .effect img{
+            width: 230px;
+            height: 350px;
+        }
+
+.effect {
+  position: relative;
+  width: 230px;
+    float: left;
+    margin: 1em;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0em;
+  right: 0;
+  background-color: rgba(0,0,0,0.5);
+  overflow: hidden;
+  width: 230px;
+  height: 0;
+  transition: .5s ease;
+}
+
+.effect:hover .overlay {
+  height: 100%;
+}
+
+.text {
+  white-space: nowrap;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+    width: 200px;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+</style>
+
+
+    {%for a in range(0, 1)%}
+    <div class="movierec">
+        {% for item in rec %}
+
+            <a href="/movie/{{item[4]}}">
+            <div class="effect">
+                <img src="{{item[3]}}">
+              <div class="overlay">
+                <div class="text">{{item[2]}}</div>
+              </div>
+            </div>
+            </a>
+        {% endfor %}
+
+        {%for a in range(0, 1)%}
+        <ul class="notification">
+            {% for item in notification[a] %}
+            <li>
+                <b> {{item[3]}} </b>
+                <br/>
+                <b>{{item[0]}}</b>
+                <br/>
+                <b> {{item[1]}} </b>
+                <br/>
+                Rate:<b> {{item[2]}} </b>
+            </li>
+                </br>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+
+</div>
+    </div>
+
+    <!--<div class="user_notify">-->
+        <!--{%for a in range(0, 1)%}-->
+        <!--<ul class="notification">-->
+            <!--{% for item in notification[a] %}-->
+            <!--<li>-->
+                <!--<b> {{item[3]}} </b>-->
+                <!--</br>-->
+                <!--<b>{{item[0]}}</b>-->
+                <!--</br>-->
+                <!--<b> {{item[1]}} </b>-->
+                <!--</br>-->
+                <!--Rate: <b> {{item[2]}} </b>-->
+            <!--</li>-->
+                <!--</br>-->
+            <!--{% endfor %}-->
+        <!--</ul>-->
+        <!--{% endfor %}-->
+    <!--</div>-->
+
+</div>
+    {% endfor %}
+
+    <style>
+        .recom{
+            float: left;
+            width:230px;
+        }
+        img{
+            /*width: 230px;*/
+        }
+    </style>
+
+
+
+
+
+
+</div>
+
+
+<style>
+    .notification{
+       width: 30em;
+    height: 20em;
+    }
+    .notification li{
+        border-bottom: 1px solid black;
+        padding-bottom: 2px;
+    }
+    .notification ul {
+        margin-top: 5em;
+    }
+</style>
+
+<script>
+function closeNav() {
+    document.getElementById("open_cursor").style.display = "inline";
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+
+}
+function openNav() {
+    document.getElementById("open_cursor").style.display = "none";
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+}
+
+
+</script>
+</body>
+</html>
+
